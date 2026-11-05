@@ -11,7 +11,7 @@
 <body>
 <header><div><div class="brand">MONEY <span>ENGINE</span></div><small>Registro personale · versione web</small></div><span class="tag">Modalità locale</span></header>
 <main>
-<div class="notice"><b>Trasparenza:</b> questa app tiene traccia dei ricavi che inserisci. Non genera denaro, non esegue bonifici e non è collegata a UniCredit. I dati restano nel browser di questo dispositivo.</div>
+<div class="notice"><b>Trasparenza:</b> questa app tiene traccia dei ricavi che inserisci. Non genera denaro, non esegue bonifici e non è collegata ad alcun conto bancario. I dati restano nel browser di questo dispositivo.</div>
 <div class="grid">
 <div class="metric"><small>Incassi registrati</small><strong id="paid">0,00 €</strong></div>
 <div class="metric"><small>In attesa</small><strong id="pending">0,00 €</strong></div>
@@ -61,7 +61,7 @@
 </section>
 <section class="panel"><h3>Ricerca opportunità</h3><p class="muted">Consulta il rapporto delle opportunità affiliate. Le voci sono piste da verificare: non sono iscrizioni, approvazioni o ricavi.</p><div class="actions"><a href="https://github.com/falsettiemanueleef-cmd/money-engine./blob/main/reports/latest.md" target="_blank" rel="noopener">Apri il rapporto aggiornato</a></div></section>
 <section class="panel"><h3>Privacy e sicurezza</h3><p class="muted">Nessun collegamento bancario o accesso ai conti. Non inserire password, PIN, OTP, IBAN o dati delle carte. I ricavi si registrano manualmente e i dati restano su questo dispositivo.</p></section>
-<footer>I dati sono salvati solo nel browser tramite memoria locale. Non sono sincronizzati tra dispositivi. Scarica periodicamente un backup. Per un collegamento bancario automatico servirebbe un intermediario AISP autorizzato e un consenso sicuro.</footer>
+<footer>I dati sono salvati solo nel browser tramite memoria locale. Non sono sincronizzati tra dispositivi. Scarica periodicamente un backup. Nessun accesso bancario è previsto da questo progetto.</footer>
 </main>
 <script>
 const K='money_engine_v1';let data={goal:2000,incomes:[]};const $=id=>document.getElementById(id);const today=()=>new Date().toISOString().slice(0,10);const euro=n=>new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'}).format(n||0);const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
