@@ -26,7 +26,7 @@
 <label>Data</label><input id="date" type="date" required>
 <label>Stato</label><select id="status"><option value="pending">In attesa</option><option value="paid">Incassato</option></select>
 <div class="actions"><button class="primary">Aggiungi ricavo</button></div></form></section>
-<section class="panel"><h3>Obiettivo e backup</h3><label>Obiettivo mensile (€)</label><input id="goal" type="number" min="1" value="3000"><div class="actions"><button id="saveGoal" class="primary" type="button">Salva obiettivo</button><button id="backup" type="button">Scarica backup JSON</button><button id="export" type="button">Esporta CSV</button></div><hr style="border-color:var(--line);margin:18px 0"><h3>Importa backup</h3><input id="restore" type="file" accept=".json,application/json"><div class="actions"><button id="restoreBtn" type="button">Ripristina backup</button></div><p id="msg" class="muted" aria-live="polite"></p></section>
+<section class="panel"><h3>Obiettivo e backup</h3><label>Obiettivo mensile (€)</label><input id="goal" type="number" min="1" value="2000"><div class="actions"><button id="saveGoal" class="primary" type="button">Salva obiettivo</button><button id="backup" type="button">Scarica backup JSON</button><button id="export" type="button">Esporta CSV</button></div><hr style="border-color:var(--line);margin:18px 0"><h3>Importa backup</h3><input id="restore" type="file" accept=".json,application/json"><div class="actions"><button id="restoreBtn" type="button">Ripristina backup</button></div><p id="msg" class="muted" aria-live="polite"></p></section>
 </div>
 <section class="panel"><h3>Registro ricavi</h3><div class="tablewrap"><table><thead><tr><th>Data</th><th>Fonte / descrizione</th><th>Stato</th><th>Importo</th><th></th></tr></thead><tbody id="rows"></tbody></table></div><div class="actions"><button id="clear" type="button">Cancella dati locali</button></div></section>
 <section class="panel"><h3>Motori di crescita · test iniziali</h3>
@@ -63,7 +63,7 @@
 <footer>I dati sono salvati solo nel browser tramite memoria locale. Non sono sincronizzati tra dispositivi. Scarica periodicamente un backup. Per un collegamento bancario automatico servirebbe un intermediario AISP autorizzato e un consenso sicuro.</footer>
 </main>
 <script>
-const K='money_engine_v1';let data={goal:3000,incomes:[]};const $=id=>document.getElementById(id);const today=()=>new Date().toISOString().slice(0,10);const euro=n=>new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'}).format(n||0);const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const K='money_engine_v1';let data={goal:2000,incomes:[]};const $=id=>document.getElementById(id);const today=()=>new Date().toISOString().slice(0,10);const euro=n=>new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'}).format(n||0);const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 try{const old=JSON.parse(localStorage.getItem(K));if(old&&Array.isArray(old.incomes))data={...data,...old}}catch(e){}
 $('date').value=today();$('goal').value=data.goal;
 function save(){localStorage.setItem(K,JSON.stringify(data));render()}
@@ -74,8 +74,8 @@ $('saveGoal').onclick=()=>{const n=Number($('goal').value);if(n>0){data.goal=n;s
 function download(name,content,type){const a=document.createElement('a'),u=URL.createObjectURL(new Blob([content],{type}));a.href=u;a.download=name;a.click();URL.revokeObjectURL(u)}
 $('backup').onclick=()=>download('money-engine-backup.json',JSON.stringify(data,null,2),'application/json');
 $('export').onclick=()=>{const rows=[['data','fonte','descrizione','importo','stato'],...data.incomes.map(x=>[x.date,x.source,x.desc,x.amount,x.status])];download('money-engine-ricavi.csv',rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\r\n'),'text/csv;charset=utf-8')};
-$('restoreBtn').onclick=async()=>{const f=$('restore').files[0];if(!f)return $('msg').textContent='Seleziona un backup JSON.';try{const x=JSON.parse(await f.text());if(!Array.isArray(x.incomes))throw Error();data={goal:Number(x.goal)||3000,incomes:x.incomes};save();$('msg').textContent='Backup ripristinato.'}catch(e){$('msg').textContent='File non valido.'}};
-$('clear').onclick=()=>{if(confirm('Cancellare tutti i dati locali?')){data={goal:3000,incomes:[]};save()}};
+$('restoreBtn').onclick=async()=>{const f=$('restore').files[0];if(!f)return $('msg').textContent='Seleziona un backup JSON.';try{const x=JSON.parse(await f.text());if(!Array.isArray(x.incomes))throw Error();data={goal:Number(x.goal)||2000,incomes:x.incomes};save();$('msg').textContent='Backup ripristinato.'}catch(e){$('msg').textContent='File non valido.'}};
+$('clear').onclick=()=>{if(confirm('Cancellare tutti i dati locali?')){data={goal:2000,incomes:[]};save()}};
 render();
 if('serviceWorker'in navigator&&location.protocol==='https:'){addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}))}
 </script></body></html>
