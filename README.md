@@ -8,11 +8,11 @@ Progetto personale per monitorare opportunità di affiliazione e registrare rica
 - Il registro dei ricavi è locale al browser: non è sincronizzato e richiede inserimento manuale.
 - Non esiste un collegamento bancario, non vengono eseguiti pagamenti e non vengono generati ricavi automaticamente.
 - La scansione settimanale raccoglie notizie pubbliche come **indizi**; non approva programmi, non crea account e non sostituisce la verifica dei termini ufficiali.
-- Il report iniziale contiene una shortlist manuale di TradeTracker, Awin e Amazon PartnerNet; non equivale a un'approvazione o a una candidatura.
+- Il report `reports/latest.md` contiene la shortlist iniziale di TradeTracker, Awin e Amazon PartnerNet. La scansione automatica aggiorna separatamente `reports/weekly-leads.md`, così non sovrascrive la shortlist. Nessun report equivale a un'approvazione o a una candidatura.
 
 ## Scansione settimanale
 
-GitHub Actions esegue ogni lunedì alle 15:00 UTC (16:00 in Italia in inverno, 17:00 durante l'ora legale) e aggiorna `reports/latest.md`. L'orario è UTC e non segue automaticamente il cambio dell'ora italiana. È disponibile anche l'avvio manuale dalla scheda Actions.
+GitHub Actions esegue ogni lunedì alle 15:00 UTC (16:00 in Italia in inverno, 17:00 durante l'ora legale) e aggiorna `reports/weekly-leads.md`. L'orario è UTC e non segue automaticamente il cambio dell'ora italiana. È disponibile anche l'avvio manuale dalla scheda Actions.
 
 Le notizie raccolte non sono offerte verificate. Prima di aderire a un programma occorre controllare sul sito ufficiale: requisiti per l'Italia, commissioni, soglie, calendario e metodo di pagamento, cookie, regole promozionali, privacy e fiscalità.
 
