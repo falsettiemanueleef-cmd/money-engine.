@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101827"><meta name="description" content="Registro personale di ricavi e controllo accrediti.">
+<title>MONEY ENGINE</title><link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml">
+<style>
+:root{color-scheme:dark;--bg:#0b1220;--panel:#121d30;--line:#263650;--text:#eef4ff;--muted:#9aabc4;--green:#49d49b}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(140deg,#0b1220,#101a2b);color:var(--text);font:15px/1.45 system-ui,sans-serif}header,main{max-width:1080px;margin:auto;padding:22px 18px}header{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line)}.brand{font-size:22px;font-weight:850;letter-spacing:.08em}.brand span{color:var(--green)}.muted,small{color:var(--muted)}.notice,.panel,.metric{border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--panel);margin:14px 0}.notice{background:#2b2518;border-color:#66532b;color:#f7dda3}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.metric strong{display:block;font-size:25px;margin:6px 0}.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}label{display:block;font-size:12px;color:var(--muted);margin:9px 0 4px}input,select,button{font:inherit;border-radius:8px;padding:10px;border:1px solid var(--line);background:#0c1627;color:var(--text);max-width:100%}input,select{width:100%}button{cursor:pointer;background:#1b2a40}button.primary{background:var(--green);color:#062016;border-color:var(--green);font-weight:700}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line)}td:last-child,th:last-child{text-align:right}.tag{color:var(--muted);font-size:12px}.progress{height:8px;background:#263650;border-radius:9px;overflow:hidden}.progress span{display:block;height:100%;background:var(--green)}footer{font-size:12px;color:var(--muted);padding:20px 0}@media(max-width:720px){.grid{grid-template-columns:repeat(2,1fr)}.cols{grid-template-columns:1fr}}@media(max-width:420px){.grid{grid-template-columns:1fr 1fr}.metric strong{font-size:20px}}
+</style></head>
+<body>
+<header><div><div class="brand">MONEY <span>ENGINE</span></div><small>Registro personale · versione web</small></div><span class="tag">Modalità locale</span></header>
+<main>
+<div class="notice"><b>Trasparenza:</b> questa app tiene traccia dei ricavi che inserisci. Non genera denaro, non esegue bonifici e non è collegata a UniCredit. I dati restano nel browser di questo dispositivo.</div>
+<div class="grid">
+<div class="metric"><small>Incassi registrati</small><strong id="paid">0,00 €</strong></div>
+<div class="metric"><small>In attesa</small><strong id="pending">0,00 €</strong></div>
+<div class="metric"><small>Incassi del mese</small><strong id="month">0,00 €</strong></div>
+<div class="metric"><small>Obiettivo mensile</small><strong id="goalText">3.000 €</strong><small id="pct">0% raggiunto</small><div class="progress"><span id="bar" style="width:0%"></span></div></div>
+</div>
+<div class="cols">
+<section class="panel"><h3>Registra un ricavo</h3><form id="form">
+<label>Fonte / programma</label><input id="source" required placeholder="Es. programma affiliati">
+<label>Descrizione</label><input id="desc" placeholder="Es. commissione vendita">
+<label>Importo (€)</label><input id="amount" type="number" min=".01" step=".01" required>
+<label>Data</label><input id="date" type="date" required>
+<label>Stato</label><select id="status"><option value="pending">In attesa</option><option value="paid">Incassato</option></select>
+<div class="actions"><button class="primary">Aggiungi ricavo</button></div></form></section>
+<section class="panel"><h3>Obiettivo e backup</h3><label>Obiettivo mensile (€)</label><input id="goal" type="number" min="1" value="3000"><div class="actions"><button id="saveGoal" class="primary" type="button">Salva obiettivo</button><button id="backup" type="button">Scarica backup JSON</button><button id="export" type="button">Esporta CSV</button></div><hr style="border-color:var(--line);margin:18px 0"><h3>Importa backup</h3><input id="restore" type="file" accept=".json,application/json"><div class="actions"><button id="restoreBtn" type="button">Ripristina backup</button></div><p id="msg" class="muted" aria-live="polite"></p></section>
+</div>
+<section class="panel"><h3>Registro ricavi</h3><div class="tablewrap"><table><thead><tr><th>Data</th><th>Fonte / descrizione</th><th>Stato</th><th>Importo</th><th></th></tr></thead><tbody id="rows"></tbody></table></div><div class="actions"><button id="clear" type="button">Cancella dati locali</button></div></section>
+<section class="panel"><h3>Motori di crescita · test iniziali</h3>
+<p class="muted">Queste sono ipotesi da validare, non guadagni né vendite già dimostrati. Le opportunità vengono aggiornate dalla ricerca periodica; non sono collegate automaticamente ai marketplace.</p>
+<div class="cols">
+<div class="metric"><small>Motore 1 · Prodotti digitali</small><strong>Template pratici</strong><p>Testare modelli modificabili per preventivi, gestione clienti, scadenze e controllo incassi per microimprese italiane. Differenziare per mestiere, non creare un planner generico.</p><p class="tag">Segnale: su Etsy una fonte di settore riporta ricerche per planner digitali, stampe e modelli CV; è un indicatore di interesse, non prova di acquisti.</p><a href="https://stateoftheart.beehiiv.com/p/digital-products-to-sell-on-etsy-in-2026" target="_blank" rel="noopener">Leggi il segnale di ricerca</a><br><a href="https://gumroad.com/help/article/66-gumroads-fees" target="_blank" rel="noopener">Commissioni Gumroad</a></div>
+<div class="metric"><small>Motore 2 · Affiliazioni</small><strong>Guide d'acquisto utili</strong><p>Testare guide comparative su strumenti e accessori per piccoli professionisti, solo quando possiamo aggiungere prove, criteri e confronto originale. Non basta copiare schede prodotto.</p><p class="tag">Amazon Italia: commissioni diverse per categoria; elettronica 7%, casa 8% fino a 20 € e 15% sopra 20 € secondo il piano pubblicato. Serve candidatura approvata e contenuto originale.</p><a href="https://programma-affiliazione.amazon.it/help/operating/policies/" target="_blank" rel="noopener">Requisiti ufficiali Amazon</a><br><a href="https://sellercentral.amazon.it/gp/help/external/GTM7BFLLKEA8T7C4" target="_blank" rel="noopener">Tabella commissioni 2026</a></div>
+</div>
+<h4>Regole di selezione</h4><ul class="muted"><li>Priorità a segnali d'acquisto osservabili, non solo visualizzazioni o ricerche.</li><li>Calcolare commissioni, costi, resi, tempi di pagamento e imposte prima di scegliere.</li><li>Nessuna pubblicità a pagamento, acquisto di scorte o iscrizione con costo senza consenso.</li><li>Pubblicare solo contenuti originali e dichiarare chiaramente i link affiliati.</li></ul>
+<p class="tag">Mercato italiano e-commerce 2026: 66,6 miliardi € stimati (+6%), ma questo dato macro non prova la domanda per uno specifico prodotto.</p><a href="https://www.osservatori.net/comunicato/ecommerce-b2c/ecommerce-acquisti-online-crescita/" target="_blank" rel="noopener">Fonte: Osservatorio eCommerce B2c</a>
+</section>
+<section class="panel"><h3>Shortlist iniziale · evidenze pubbliche</h3>
+<p class="muted">Ricerca del 5 novembre 2026. I numeri sotto sono segnali pubblici osservati sui negozi, non vendite attribuibili a un singolo modello e non previsioni di guadagno.</p>
+<div class="cols">
+<div class="metric"><small>Priorità A · prodotto digitale</small><strong>Kit operativo per microattività</strong>
+<p>Creare un foglio Excel/Google Sheets in italiano per preventivi, ordini, clienti, scadenze e margini per una micro-nicchia (artigiani, piccoli venditori a mercatini o professionisti di servizi). Evitare modelli fiscali o promesse di conformità.</p>
+<p class="tag">Prova: negozio Etsy createandcalculate mostra 6.337 vendite complessive, 4,9/5 su 566 recensioni e vende modelli per attività, inventario e fatture. È prova che il negozio vende modelli spreadsheet, non che ogni modello abbia quelle vendite.</p>
+<a href="https://www.etsy.com/shop/createandcalculate" target="_blank" rel="noopener">Verifica negozio e prodotti</a>
+<p class="tag">Secondo segnale: ExcelSheetSavvy mostra circa 2,1 mila vendite e 646 articoli, inclusi modelli business e KPI. Concorrenza già presente: serve una nicchia italiana e un vantaggio concreto.</p>
+<a href="https://www.etsy.com/it/shop/ExcelSheetSavvy" target="_blank" rel="noopener">Verifica secondo negozio</a>
+</div>
+<div class="metric"><small>Priorità B · affiliazioni</small><strong>Guide pratiche per strumenti</strong>
+<p>Preparare confronti originali di strumenti per piccoli venditori e professionisti: gestione ordini, etichette, organizzazione del lavoro. Pubblicare solo quando possiamo testare o documentare criteri e limiti; dichiarare sempre i link affiliati.</p>
+<p class="tag">Canale da valutare per primo: Awin dichiara iscrizione gratuita per partner affiliati e accesso a oltre 30.000 brand. L'approvazione dei singoli programmi e le commissioni dipendono dagli advertiser.</p>
+<a href="https://www.awin.com/it/pricing/affiliate-partners" target="_blank" rel="noopener">Requisiti partner Awin</a>
+<p class="tag">Amazon da rinviare: esame dopo almeno 3 vendite qualificate in 180 giorni e contenuti originali; il riferimento indicato è almeno 10 post pubblici.</p>
+<a href="https://programma-affiliazione.amazon.it/help/node/topic/G8TW5AE9XL2VX9VM" target="_blank" rel="noopener">Requisiti ufficiali Amazon</a>
+</div></div>
+<h4>Decisione operativa</h4>
+<ul class="muted"><li>Prima creare un prototipo funzionante del kit operativo e verificarlo su casi d'uso reali.</li><li>Non aprire ancora un negozio Etsy: l'inserzione costa 0,20 USD anche senza vendita e la commissione di transazione è 6,5%, oltre a elaborazione pagamenti e costi applicabili.</li><li>Non comprare prodotti, attivare pubblicità o pagare abbonamenti senza approvazione.</li><li>Non considerare clic, visite o vendite complessive di un negozio come ricavi MONEY ENGINE.</li></ul>
+<a href="https://help.etsy.com/hc/it/articles/115014483627-Quali-sono-le-tariffe-le-commissioni-e-le-imposte-per-vendere-su-Etsy" target="_blank" rel="noopener">Tariffe Etsy ufficiali</a>
+</section>
+<section class="panel"><h3>UniCredit · controllo accrediti</h3><p class="muted">Nessun collegamento bancario attivo. Per verificare gli incassi, confronta il registro con l'estratto conto esportato dalla banca. Non inserire qui password, PIN o codici OTP.</p></section>
+<footer>I dati sono salvati solo nel browser tramite memoria locale. Non sono sincronizzati tra dispositivi. Scarica periodicamente un backup. Per un collegamento bancario automatico servirebbe un intermediario AISP autorizzato e un consenso sicuro.</footer>
+</main>
+<script>
+const K='money_engine_v1';let data={goal:3000,incomes:[]};const $=id=>document.getElementById(id);const today=()=>new Date().toISOString().slice(0,10);const euro=n=>new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'}).format(n||0);const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+try{const old=JSON.parse(localStorage.getItem(K));if(old&&Array.isArray(old.incomes))data={...data,...old}}catch(e){}
+$('date').value=today();$('goal').value=data.goal;
+function save(){localStorage.setItem(K,JSON.stringify(data));render()}
+function render(){const paid=data.incomes.filter(x=>x.status==='paid');const sum=a=>a.reduce((s,x)=>s+x.amount,0);const m=today().slice(0,7);const month=paid.filter(x=>(x.paidDate||x.date).slice(0,7)===m);$('paid').textContent=euro(sum(paid));$('pending').textContent=euro(sum(data.incomes.filter(x=>x.status!=='paid')));$('month').textContent=euro(sum(month));$('goalText').textContent=euro(data.goal);let p=data.goal?Math.min(100,sum(month)/data.goal*100):0;$('pct').textContent=Math.floor(p)+'% raggiunto';$('bar').style.width=p+'%';$('rows').innerHTML=data.incomes.length?data.incomes.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(x=>'<tr><td>'+safe(x.date)+'</td><td><b>'+safe(x.source)+'</b><br><small>'+safe(x.desc)+'</small></td><td>'+(x.status==='paid'?'Incassato':'In attesa')+'</td><td>'+euro(x.amount)+'</td><td><button data-id="'+x.id+'">Elimina</button></td></tr>').join(''):'<tr><td colspan="5" class="muted">Nessun ricavo registrato.</td></tr>'}
+$('form').addEventListener('submit',e=>{e.preventDefault();data.incomes.push({id:crypto.randomUUID(),source:$('source').value.trim(),desc:$('desc').value.trim(),amount:Number($('amount').value),date:$('date').value,status:$('status').value,paidDate:$('status').value==='paid'?$('date').value:null});e.target.reset();$('date').value=today();save()});
+$('rows').addEventListener('click',e=>{const id=e.target.dataset.id;if(id&&confirm('Eliminare questo ricavo?')){data.incomes=data.incomes.filter(x=>x.id!==id);save()}});
+$('saveGoal').onclick=()=>{const n=Number($('goal').value);if(n>0){data.goal=n;save()}};
+function download(name,content,type){const a=document.createElement('a'),u=URL.createObjectURL(new Blob([content],{type}));a.href=u;a.download=name;a.click();URL.revokeObjectURL(u)}
+$('backup').onclick=()=>download('money-engine-backup.json',JSON.stringify(data,null,2),'application/json');
+$('export').onclick=()=>{const rows=[['data','fonte','descrizione','importo','stato'],...data.incomes.map(x=>[x.date,x.source,x.desc,x.amount,x.status])];download('money-engine-ricavi.csv',rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\r\n'),'text/csv;charset=utf-8')};
+$('restoreBtn').onclick=async()=>{const f=$('restore').files[0];if(!f)return $('msg').textContent='Seleziona un backup JSON.';try{const x=JSON.parse(await f.text());if(!Array.isArray(x.incomes))throw Error();data={goal:Number(x.goal)||3000,incomes:x.incomes};save();$('msg').textContent='Backup ripristinato.'}catch(e){$('msg').textContent='File non valido.'}};
+$('clear').onclick=()=>{if(confirm('Cancellare tutti i dati locali?')){data={goal:3000,incomes:[]};save()}};
+render();
+if('serviceWorker'in navigator&&location.protocol==='https:'){addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}))}
+</script></body></html>
