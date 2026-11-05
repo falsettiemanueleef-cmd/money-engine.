@@ -22,6 +22,8 @@ La PWA può essere aperta con Chrome su Android e, se il sito è pubblicato via 
 
 ## Regole di sicurezza e trasparenza
 
+L'app non richiede né usa dati bancari. Il rapporto delle opportunità è raggiungibile dalla sezione dedicata nell'app.
+
 - Nessuna password, PIN, OTP o credenziale bancaria nel repository.
 - Nessun click, acquisto, account o vendita artificiale.
 - Nessuna pubblicazione automatica senza autorizzazione e conformità alle regole del canale.
