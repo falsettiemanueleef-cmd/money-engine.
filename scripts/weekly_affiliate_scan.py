@@ -14,7 +14,7 @@ QUERIES = [
     '"affiliate program" Italy publisher',
     'nuovi programmi affiliazione ecommerce Italia',
 ]
-OUT = Path("reports/latest.md")
+OUT = Path("reports/weekly-leads.md")
 TIMEOUT = 20
 MAX_ITEMS_PER_QUERY = 12
 
