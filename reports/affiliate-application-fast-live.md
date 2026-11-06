@@ -51,3 +51,20 @@ Use the disclosure clearly near the relevant link and in the content itself. For
 - eBay Network Agreement: https://partnernetwork.ebay.it/page/network-agreement
 - YouTube paid promotion disclosure: https://support.google.com/youtube/answer/154235?hl=it
 - AGCOM influencer guidance: https://www.agcom.it/influencer-linee-guida-codice-di-condotta-e-faq
+
+
+## Channel verification snapshot — 2026-11-06
+
+Public channel lookup by the known channel ID identified the channel as `fastliveglobal`, created on 2026-11-05. The public-stat lookup returned 1 subscriber, 0 views and 0 videos at the time of verification. The exact-handle search did not independently return a result, and a direct public-page fetch was unavailable in the lookup environment; therefore this is a metadata/statistics check, not a complete visual audit of the channel page.
+
+### Decision
+
+**Not ready for affiliate applications yet.** There is currently no published content for a reviewer to assess and no meaningful audience/traffic history to report. Do not submit applications describing the channel as already established or active.
+
+### Minimum preparation before applying
+
+1. Confirm the channel's public About text, profile image and banner are complete.
+2. Publish a small set of original public videos relevant to the affiliate categories, with accurate titles/descriptions and no reused copyrighted material.
+3. Add a clear business/contact route only if the owner chooses to make one public.
+4. Recheck each network's current minimum-content and traffic-source requirements immediately before applying.
+5. Update this snapshot with actual public subscriber/video/view counts; never estimate or fabricate them.
