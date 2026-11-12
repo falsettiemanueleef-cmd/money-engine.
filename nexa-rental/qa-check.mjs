@@ -33,7 +33,8 @@ for (const language of languages.slice(1)) {
     "Translation key mismatch for " + language);
 }
 
-const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
+const staticHtml = html.split("<script>")[0];
+const ids = [...staticHtml.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
 const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
 assert.deepEqual([...new Set(duplicates)], [], "Duplicate static HTML IDs found");
 for (const required of ["lang", "tabs", "notice", "app", "manifest.webmanifest"]) {
