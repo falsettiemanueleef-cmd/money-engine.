@@ -8,7 +8,7 @@ Branch: `nexa-rental-foundation`
 - Reservation and expense creation, editing and deletion.
 - Month-filtered reservation list.
 - Currency-separated dashboard and date-filtered report with booked nights, average stay, ADR, estimated RevPAR, and monthly, annual, property and channel breakdown tables.
-- Revenue, commissions, expenses and operating result shown separately.
+- Revenue, commissions, expenses and operating result shown separately; property-level results use direct expenses only and explicitly exclude unallocated shared expenses.
 - Reservation CSV import with manual column mapping, property/unit matching, basic duplicate detection, date/amount validation and overlap rejection.
 - Reservation CSV export, expense CSV export and JSON backup/restore.
 - IT/EN/ES/FR/DE language selector; several previously hard-coded status, channel and expense category labels have been localized.
