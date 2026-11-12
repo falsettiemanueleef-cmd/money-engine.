@@ -1,0 +1,21 @@
+PACKAGE CONTENTS
+NEXA Rental Profit Manager — beta source kit
+
+1. START-HERE.txt
+   Installation, hosting, privacy and limitation notice.
+2. index.html
+   Main application.
+3. manifest.webmanifest
+   PWA manifest.
+4. sw.js
+   Service worker for HTTPS hosting.
+5. APP-GUIDE.md
+   Product operating guide.
+6. QA-STATUS.md
+   Honest QA and release status.
+7. templates/reservations-import-template.csv
+   Generic reservation import example.
+8. templates/expenses-import-template.csv
+   Generic expense import example.
+
+The ZIP is a source kit intended for deployment to an HTTPS static host. It is not an Android APK, iOS app-store binary, cloud service, or turnkey hosted subscription.
