@@ -7,7 +7,7 @@ const html = fs.readFileSync(new URL("index.html", root), "utf8");
 const sw = fs.readFileSync(new URL("sw.js", root), "utf8");
 const manifestText = fs.readFileSync(new URL("manifest.webmanifest", root), "utf8");
 
-const scripts = [...html.matchAll(/<script>([\\s\\S]*?)<\\/script>/gi)];
+const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/gi)];
 assert.equal(scripts.length, 1, "Expected exactly one inline application script");
 new vm.Script(scripts[0][1], { filename: "index.html:inline-script" });
 new vm.Script(sw, { filename: "sw.js" });
@@ -17,7 +17,7 @@ assert.equal(manifest.name, "NEXA Rental Profit Manager");
 assert.equal(manifest.display, "standalone");
 assert.ok(manifest.start_url && manifest.scope, "PWA start_url/scope must exist");
 
-const wordsMatch = html.match(/const words=(\\{[\\s\\S]*?\\n\\});\\nlet lang/);
+const wordsMatch = html.match(/const words=(\{[\s\S]*?\n\});\nlet lang/);
 assert.ok(wordsMatch, "Could not locate translation dictionaries");
 const dictionaries = vm.runInNewContext("(" + wordsMatch[1] + ")");
 const languages = ["it", "en", "es", "fr", "de"];
@@ -33,7 +33,7 @@ for (const language of languages.slice(1)) {
     "Translation key mismatch for " + language);
 }
 
-const ids = [...html.matchAll(/\\bid="([^"]+)"/g)].map(match => match[1]);
+const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
 const duplicates = ids.filter((id, index) => ids.indexOf(id) !== index);
 assert.deepEqual([...new Set(duplicates)], [], "Duplicate static HTML IDs found");
 for (const required of ["lang", "tabs", "notice", "app", "manifest.webmanifest"]) {
