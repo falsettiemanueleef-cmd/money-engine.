@@ -19,3 +19,24 @@ jobs:
           node-version: 20
       - name: Run NEXA Rental static QA
         run: node nexa-rental/qa-check.mjs
+
+      - name: Assemble Etsy digital download ZIP
+        run: |
+          set -euo pipefail
+          mkdir -p dist/NEXA-Rental-Manager-Beta/templates
+          cp nexa-rental/index.html nexa-rental/manifest.webmanifest nexa-rental/sw.js dist/NEXA-Rental-Manager-Beta/
+          cp nexa-rental/APP-GUIDE.md nexa-rental/QA-STATUS.md dist/NEXA-Rental-Manager-Beta/
+          cp nexa-rental/etsy-package/START-HERE.txt nexa-rental/etsy-package/CONTENTS.txt dist/NEXA-Rental-Manager-Beta/
+          cp nexa-rental/etsy-package/templates/*.csv dist/NEXA-Rental-Manager-Beta/templates/
+          cd dist
+          zip -qr NEXA-Rental-Manager-Beta.zip NEXA-Rental-Manager-Beta
+          unzip -t NEXA-Rental-Manager-Beta.zip
+          test "$(stat -c%s NEXA-Rental-Manager-Beta.zip)" -lt 20000000
+
+      - name: Upload Etsy package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NEXA-Rental-Manager-Beta
+          path: dist/NEXA-Rental-Manager-Beta.zip
+          if-no-files-found: error
+          retention-days: 14
