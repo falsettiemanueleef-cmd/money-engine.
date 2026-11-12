@@ -1,0 +1,37 @@
+NEXA RENTAL PROFIT MANAGER
+Digital software starter kit — Version 0.2 beta
+Languages in the app: Italian, English, Spanish, French, German
+
+IMPORTANT — READ BEFORE USE
+This download contains the original NEXA Rental static web-app source and working templates. It is a beta starter kit, not a hosted service and not a fully tested commercial property-management platform.
+
+WHAT IS INCLUDED
+- index.html: the app interface and application logic
+- manifest.webmanifest and sw.js: installable PWA configuration for HTTPS hosting
+- APP-GUIDE.md: operating guide
+- QA-STATUS.md: known limitations and test status
+- templates/reservations-import-template.csv
+- templates/expenses-import-template.csv
+
+HOW TO OPEN THE APP
+The app is designed to run from a secure HTTPS website. Do not double-click index.html and assume that PWA installation or offline storage will work: browsers restrict service workers on file:// URLs.
+To use it as a PWA, publish the extracted files to a static HTTPS host (for example, a static-site host that supports custom uploaded HTML files), then open the HTTPS address in Chrome or Safari and use the browser's install/add-to-home-screen command where available.
+Hosting account setup is not included in this download.
+
+DATA AND PRIVACY
+Records are stored in browser local storage on the device/browser profile. There is no account, server database, cloud backup, or automatic multi-device sync. Export JSON backups regularly. Do not enter guest personal data, payment-card data, identity documents, or sensitive information.
+
+IMPORT
+The CSV templates are examples for the app's generic column mapper. Exports from Airbnb, Booking.com and Vrbo have not all been certified. Map columns carefully and review imported rows and totals.
+
+LIMITATIONS
+- Calendar is a monthly reservation list, not a full availability calendar.
+- Shared expenses are not automatically allocated to properties.
+- Occupancy and RevPAR are estimates; unavailable nights and owner blocks are not accounted for.
+- Some labels and prompts may remain untranslated.
+- No physical Android installation test or iOS device test has been completed.
+- No successful end-to-end browser QA run has been confirmed.
+- This is not tax/accounting software and does not provide tax advice.
+
+SUPPORT
+Use Etsy Messages for questions about the files and setup. Never send passwords, one-time codes, guest data, or payment details.
