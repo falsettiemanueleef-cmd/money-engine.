@@ -36,7 +36,39 @@ document.querySelectorAll("[data-dr]").forEach(b=>b.onclick=()=>{if(confirm(T().
 if($("eform"))$("eform").onsubmit=e=>{e.preventDefault();let d=Object.fromEntries(new FormData(e.target));d.id=uid();db.expenses.push(d);save();render()};
 document.querySelectorAll("[data-de]").forEach(b=>b.onclick=()=>{if(confirm(T().confirm)){db.expenses=db.expenses.filter(x=>x.id!==b.dataset.de);save();render()}});
 if($("choose"))$("choose").onclick=()=>$("csvfile").click();
-if($("csvfile"))$("csvfile").onchange=async e=>{let txt=await e.target.files[0].text();let lines=txt.split(/\r?\n/).filter(Boolean);let sep=lines[0].includes(";")?";":",";let parse=s=>s.match(/("([^"]|"")*"|[^,;]*)(,|;|$)/g)?.map(x=>x.replace(/[,;]$/,"").replace(/^"|"$/g,"").replace(/""/g,'"'))||s.split(sep);headers=parse(lines.shift());csv=lines.map(parse);let fields=["property","unit","arrival","departure","gross","commission","channel"];map={};let synonyms={property:["property","listing","immobile","alloggio"],unit:["unit","room","unità"],arrival:["arrival","check-in","checkin","arrivo"],departure:["departure","check-out","checkout","partenza"],gross:["gross","amount","total","revenue","ricavo"],commission:["commission","service fee","fee"],channel:["channel","source","platform","canale"]};fields.forEach(f=>{let i=headers.findIndex(h=>synonyms[f].some(a=>h.toLowerCase().includes(a)));if(i>=0)map[f]=i});$("stage").innerHTML='<h2>'+T().map+'</h2>'+fields.map(f=>'<label>'+f+' <select data-map="'+f+'"><option value="">—</option>'+headers.map((h,i)=>'<option value="'+i+'" '+(map[f]===i?'selected':'')+'>'+esc(h)+'</option>').join("")+'</select></label><br>').join("")+'<p>'+T().preview+': '+csv.length+' righe</p><button id="doImport">'+T().import+'</button>';document.querySelectorAll("[data-map]").forEach(s=>s.onchange=()=>map[s.dataset.map]=s.value);$("doImport").onclick=()=>{let count=0;csv.forEach(row=>{let get=f=>map[f]!==undefined?row[Number(map[f])]:"";let p=db.properties.find(x=>x.name.toLowerCase()===String(get("property")).toLowerCase())||db.properties[0];let u=p?.units.find(x=>x.name.toLowerCase()===String(get("unit")).toLowerCase())||p?.units[0];let a=String(get("arrival")),d=String(get("departure"));if(a.includes("/")){let z=a.split("/");a=z[2]+"-"+z[1].padStart(2,"0")+"-"+z[0].padStart(2,"0")}if(d.includes("/")){let z=d.split("/");d=z[2]+"-"+z[1].padStart(2,"0")+"-"+z[0].padStart(2,"0")}if(p&&u&&a&&d&&days(a,d)>0){db.reservations.push({id:uid(),pid:p.id,uid:u.id,arrival:a,departure:d,gross:get("gross"),commission:get("commission"),clean:0,payout:0,channel:get("channel")||"Imported",status:"confirmed"});count++}});save();alert(T().done+" "+count);render()}};
+if($("csvfile"))$("csvfile").onchange=async e=>{
+let file=e.target.files[0];if(!file)return;
+let txt=await file.text();
+let first=txt.split(/\r?\n/,1)[0]||"",sep=(first.match(/;/g)||[]).length>(first.match(/,/g)||[]).length?";":",";
+let parseCSV=(input,delimiter)=>{let rows=[],row=[],field="",quoted=false;for(let i=0;i<input.length;i++){let ch=input[i];if(quoted){if(ch==='"'&&input[i+1]==='"'){field+='"';i++}else if(ch==='"')quoted=false;else field+=ch}else if(ch==='"')quoted=true;else if(ch===delimiter){row.push(field);field=""}else if(ch==="\n"){row.push(field);rows.push(row);row=[];field=""}else if(ch!=="\r")field+=ch}if(field.length||row.length){row.push(field);rows.push(row)}return rows};
+let parsed=parseCSV(txt,sep);headers=(parsed.shift()||[]).map(x=>x.trim());csv=parsed.filter(r=>r.some(x=>String(x).trim()!==""));
+let fields=["property","unit","arrival","departure","gross","clean","commission","payout","channel","status"];
+map={};
+let synonyms={property:["property","listing","immobile","alloggio"],unit:["unit","room","unità","camera"],arrival:["arrival","check-in","checkin","arrivo"],departure:["departure","check-out","checkout","partenza"],gross:["gross","accommodation","amount","total","revenue","ricavo"],clean:["cleaning","clean","pulizie"],commission:["commission","service fee","fee"],payout:["payout","paid out","net payout"],channel:["channel","source","platform","canale"],status:["status","stato"]};
+fields.forEach(f=>{let i=headers.findIndex(h=>synonyms[f].some(a=>h.toLowerCase().includes(a)));if(i>=0)map[f]=String(i)});
+$("stage").innerHTML='<h2>'+T().map+'</h2>'+fields.map(f=>'<label>'+f+' <select data-map="'+f+'"><option value="">—</option>'+headers.map((h,i)=>'<option value="'+i+'" '+(map[f]===String(i)?'selected':'')+'>'+esc(h)+'</option>').join("")+'</select></label><br>').join("")+'<p>'+T().preview+': '+csv.length+' righe</p><p class="small">Per evitare assegnazioni errate, associa esplicitamente immobile e unità. Le righe non abbinate o duplicate saranno saltate.</p><button id="doImport">'+T().import+'</button>';
+document.querySelectorAll("[data-map]").forEach(s=>s.onchange=()=>map[s.dataset.map]=s.value);
+$("doImport").onclick=()=>{
+let count=0,skipped=0,duplicates=0;
+const val=(row,f)=>map[f]!==undefined&&map[f]!==""?String(row[Number(map[f])]??"").trim():"";
+const dateISO=value=>{let s=String(value||"").trim();if(/^\d{4}-\d{2}-\d{2}$/.test(s))return s;let m=s.match(/^(\d{1,2})[/. -](\d{1,2})[/. -](\d{4})$/);return m?m[3]+"-"+m[2].padStart(2,"0")+"-"+m[1].padStart(2,"0"):""};
+const amount=value=>{let s=String(value??"").trim().replace(/[€$£\s]/g,"");if(s.includes(",")&&s.includes("."))s=s.lastIndexOf(",")>s.lastIndexOf(".")?s.replace(/\./g,"").replace(",","."):s.replace(/,/g,"");else s=s.replace(",",".");return Number(s)};
+csv.forEach(row=>{
+let propertyName=val(row,"property").toLowerCase(),unitName=val(row,"unit").toLowerCase();
+let p=db.properties.find(x=>x.name.trim().toLowerCase()===propertyName);
+let u=p?.units.find(x=>x.name.trim().toLowerCase()===unitName);
+let a=dateISO(val(row,"arrival")),d=dateISO(val(row,"departure"));
+let gross=amount(val(row,"gross")||0),clean=amount(val(row,"clean")||0),commission=amount(val(row,"commission")||0),payout=amount(val(row,"payout")||0);
+if(!p||!u||!a||!d||days(a,d)<=0||![gross,clean,commission,payout].every(Number.isFinite)){skipped++;return}
+let channel=val(row,"channel")||"Imported",status=val(row,"status").toLowerCase();
+status=/cancel|annull|storn/.test(status)?"cancelled":/complete|completed|complet/.test(status)?"completed":"confirmed";
+let duplicate=db.reservations.some(r=>r.pid===p.id&&r.uid===u.id&&r.arrival===a&&r.departure===d&&String(r.channel||"").toLowerCase()===channel.toLowerCase()&&n(r.gross)===gross);
+if(duplicate){duplicates++;return}
+db.reservations.push({id:uid(),pid:p.id,uid:u.id,arrival:a,departure:d,gross,clean,commission,payout,channel,status});count++;
+});
+save();alert(T().done+" Importate: "+count+" · Duplicate saltate: "+duplicates+" · Righe non valide/non abbinate: "+skipped);render()
+};
+};
 if($("backup"))$("backup").onclick=()=>download("nexa-rental-backup.json",JSON.stringify(db,null,2),"application/json");
 if($("export"))$("export").onclick=()=>download("nexa-reservations.csv",["property;unit;arrival;departure;gross;commission;status",...db.reservations.map(r=>[P(r.pid)?.name,U(r.uid)?.name,r.arrival,r.departure,r.gross,r.commission,r.status].join(";"))].join("\n"),"text/csv");
 if($("restoreBtn"))$("restoreBtn").onclick=()=>{if(!confirm(T().restoreWarning))return;let f=$("restore").files[0];if(!f)return;let rd=new FileReader();rd.onload=()=>{try{let d=JSON.parse(rd.result);if(!d.properties||!d.reservations||!d.expenses)throw Error();db=d;save();render()}catch(e){alert("Invalid backup")}};rd.readAsText(f)}
