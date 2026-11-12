@@ -7,7 +7,7 @@ Branch: `nexa-rental-foundation`
 - Property and unit creation, editing and deletion.
 - Reservation and expense creation, editing and deletion.
 - Month-filtered reservation list.
-- Currency-separated dashboard and date-filtered report with booked nights, average stay, ADR and estimated RevPAR.
+- Currency-separated dashboard and date-filtered report with booked nights, average stay, ADR, estimated RevPAR, and monthly, annual, property and channel breakdown tables.
 - Revenue, commissions, expenses and operating result shown separately.
 - Reservation CSV import with manual column mapping, property/unit matching, basic duplicate detection, date/amount validation and overlap rejection.
 - Reservation CSV export, expense CSV export and JSON backup/restore.
@@ -19,7 +19,7 @@ Latest changes are committed, but a successful GitHub Actions run has **not** be
 
 ## Remaining blockers before Etsy sale
 1. The calendar is a month-filtered reservation list, not a full visual availability calendar; owner blocks and availability rules are absent.
-2. Reports are manually date-filtered. There are no automatic monthly/annual/five-year summaries or dedicated period/platform/property comparison dashboards.
+2. Reports are manually date-filtered and include month/year/property/channel breakdowns, but there is no dedicated comparison of two separately selected date ranges or a five-year preset.
 3. Shared expenses can be recorded with a currency but are not allocated across units or properties. Do not use unassigned shared expenses for per-property profitability.
 4. RevPAR is an estimate based on unit count × period length (or 365 days when no range is selected); unavailable nights and owner blocks are not subtracted.
 5. CSV import is generic. Real Airbnb/Booking.com/Vrbo export fixtures have not been tested; source-specific formats may need manual mapping.
