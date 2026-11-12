@@ -1,0 +1,2 @@
+property,unit,arrival,departure,gross,clean,commission,payout,channel,status
+Example Apartment,Unit 1,2026-12-01,2026-12-04,300,30,45,285,Airbnb,confirmed
