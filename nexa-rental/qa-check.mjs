@@ -41,7 +41,7 @@ for (const required of ["lang", "tabs", "notice", "app", "manifest.webmanifest"]
 }
 assert.ok(sw.includes("./index.html"), "Service worker must cache the app shell");
 
-for (const required of ["function calendarPage()", "function overlapExists(", "data-er=", "data-ee=", "function reportPage()", "revpar", "average stay"]) {
+for (const required of ["function calendarPage()", "function overlapExists(", "data-er=", "data-ee=", "function reportPage()", "revpar", "avgStay"]) {
   assert.ok(html.includes(required), "Missing expected product feature: " + required);
 }
 for (const language of languages) {
