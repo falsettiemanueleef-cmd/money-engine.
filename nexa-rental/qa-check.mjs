@@ -41,6 +41,15 @@ for (const required of ["lang", "tabs", "notice", "app", "manifest.webmanifest"]
 }
 assert.ok(sw.includes("./index.html"), "Service worker must cache the app shell");
 
+for (const required of ["function calendarPage()", "function overlapExists(", "data-er=", "data-ee=", "function reportPage()", "revpar", "average stay"]) {
+  assert.ok(html.includes(required), "Missing expected product feature: " + required);
+}
+for (const language of languages) {
+  assert.ok(html.includes("Object.assign(words." + language), "Missing extended translations for " + language);
+}
+assert.ok(html.includes("data-map"), "CSV column mapping must remain available");
+assert.ok(html.includes("localStorage.setItem"), "Local persistence must remain available");
+
 console.log("PASS: inline JavaScript syntax");
 console.log("PASS: service worker JavaScript syntax");
 console.log("PASS: PWA manifest JSON and standalone configuration");
