@@ -37,6 +37,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: NEXA-Rental-Manager-Beta
-          path: dist/NEXA-Rental-Manager-Beta.zip
+          path: dist/NEXA-Rental-Manager-Beta/
           if-no-files-found: error
           retention-days: 14
