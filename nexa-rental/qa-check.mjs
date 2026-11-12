@@ -49,6 +49,10 @@ for (const language of languages) {
 }
 assert.ok(html.includes("data-map"), "CSV column mapping must remain available");
 assert.ok(html.includes("localStorage.setItem"), "Local persistence must remain available");
+assert.ok(html.includes('id="exportExpenses"'), "Expense CSV export must be available");
+assert.ok(html.includes("function validISO("), "Strict ISO date validation must be available");
+assert.ok(html.includes("overlapExists(candidate)"), "CSV imports must reject overlapping reservations");
+assert.ok(html.includes('name="currency"'), "Expenses must support an explicit currency");
 
 console.log("PASS: inline JavaScript syntax");
 console.log("PASS: service worker JavaScript syntax");
