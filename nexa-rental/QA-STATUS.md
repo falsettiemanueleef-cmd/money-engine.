@@ -15,7 +15,7 @@ Branch: `nexa-rental-foundation`
 - Static QA script and GitHub Actions workflow, with additional source assertions.
 
 ## Execution status
-Latest changes are committed, but a successful GitHub Actions run has **not** been confirmed in the available results. The connector's commit-run lookup only returned pull-request-triggered runs and showed none. Static JavaScript parsing, browser interaction, calculations, import fixtures and device tests must therefore be treated as **not yet verified**.
+GitHub Actions run #37 (12 Nov 2026) completed the static QA and ZIP packaging steps successfully. The JavaScript parser, service-worker parser, manifest validation, translation-key parity and static feature assertions passed. The resulting ZIP was downloaded and its archive integrity and file list were independently checked. This is static validation only: browser interaction, calculation fixtures, real-world CSV imports and device tests remain **not yet verified**.
 
 ## Remaining blockers before Etsy sale
 1. The calendar is a month-filtered reservation list, not a full visual availability calendar; owner blocks and availability rules are absent.
@@ -26,8 +26,8 @@ Latest changes are committed, but a successful GitHub Actions run has **not** be
 6. UI localization remains incomplete: some prompts, validation messages, labels and operational messages remain hard-coded or partially translated.
 7. Data remains in browser localStorage. There is no account, cloud backup or multi-device synchronization.
 8. No real Android installation test or iOS device test has been completed. iOS is untested.
-9. No browser-based functional test or verified automated QA run has been recorded.
-10. The repository is public; the source code is not protected as a paid download. No Etsy-ready ZIP/release package or access-control mechanism has been prepared.
+9. No browser-based functional test, calculation fixture suite, real-world CSV fixture test, or Android/iOS device test has been recorded.
+10. The repository is public; the source code is not protected as a paid download. A ZIP package has been assembled and integrity-checked, but it is a beta source kit, not a protected hosted application or a fully validated turnkey product.
 
 ## Release decision
 **NOT READY FOR PAID ETSY RELEASE.** Core management functions have been expanded, but the remaining limitations and unverified tests are material. Do not advertise this as a fully tested professional property-management platform. It is not tax software and does not provide tax advice.
