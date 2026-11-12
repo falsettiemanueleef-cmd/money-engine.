@@ -3,26 +3,30 @@
 Audit date: 2026-11-12
 Branch: `nexa-rental-foundation`
 
-## Repository checks completed
-- Confirmed that the app HTML, PWA manifest, service worker, and app guide exist on the branch.
-- Inspected the current source code and identified the limitations below.
-- Added `qa-check.mjs` for JavaScript syntax, manifest JSON, translation-key parity, and duplicate static HTML ID checks.
-- Added a GitHub Actions workflow to run those static checks on pushes to this branch.
+## Implemented in the current working build
+- Property and unit creation, editing and deletion.
+- Reservation and expense creation, editing and deletion.
+- Basic month selector with a list of reservations intersecting the selected month.
+- Date-filtered management report with booked nights, average stay, ADR and estimated RevPAR.
+- Dashboard and reports grouped by property currency; shared/unassigned expenses have an explicit currency field and default to EUR for older records.
+- CSV import with manual column mapping, name matching and basic duplicate detection.
+- JSON backup/restore and reservation CSV export.
+- Five initial language dictionaries (IT/EN/ES/FR/DE), plus translated labels for the new calendar/report functions.
+- Static QA script and GitHub Actions workflow are present.
 
 ## Execution status
-The GitHub connector returned no workflow run or commit status for the latest QA commit. Therefore the automated checks are configured but **not confirmed as executed or passed**. No real browser/device session was available in this verification pass.
+The latest source changes have been committed, but no successful GitHub Actions run has been confirmed in the available connector results. Static JavaScript parsing, browser interaction, calculations, import fixtures and device tests must therefore be treated as **not yet verified**.
 
-## Findings that block a sales-ready release
-1. No full edit/update flow for existing reservations, expenses, properties, or units.
-2. No advanced calendar, monthly/annual/five-year reporting, ADR, RevPAR, average stay, or period/platform/property comparisons.
-3. Shared expenses are not allocated across units/properties.
-4. Dashboard totals combine amounts without separating currencies; mixed-currency totals can be misleading.
-5. Occupancy is a rough all-time calculation using 365 days per unit; it does not account for availability, owner blocks, date ranges, or overlapping reservations and can exceed 100%.
-6. CSV import is generic, not validated against real Airbnb/Booking.com/Vrbo exports, does not detect duplicate imports, and can silently assign unmatched rows to the first property/unit. Quoted multiline CSV fields are not supported reliably.
-7. CSV import does not map cleaning charges, payout, reservation status, or all source-specific fields.
-8. Some UI strings and select options remain hard-coded rather than translated; matching dictionary keys alone does not prove complete localization.
-9. Data is stored only in browser localStorage. There is no account, cloud backup, or multi-device synchronization.
-10. No real Android installation test or iOS device test has been completed.
+## Remaining blockers before Etsy sale
+1. The calendar is a month-filtered reservation list, not a full visual availability calendar; owner blocks and availability rules are absent.
+2. Period reports are manually date-filtered. There are no automatic monthly/annual/five-year summaries or period/platform/property comparison screens.
+3. Shared expenses can be recorded with a currency but are not allocated across units or properties. Do not use unassigned shared expenses for per-property profitability.
+4. RevPAR is an estimate based on the number of units multiplied by the selected period length (or 365 days when no full range is selected); it does not account for blocked/unavailable nights.
+5. CSV import remains generic. Real Airbnb/Booking.com/Vrbo export fixtures have not been tested; source-specific fields and formats may need manual mapping.
+6. UI localization is incomplete: some form options, status values, category names, validation prompts and operational messages remain hard-coded or partially translated.
+7. Data remains in browser localStorage. There is no account, cloud backup, or multi-device synchronization.
+8. No real Android installation test or iOS device test has been completed. iOS is untested.
+9. No browser-based functional test or verified automated QA run has been recorded.
 
 ## Release decision
-**NOT READY FOR SALE.** The static QA harness is now in the repository, but its execution has not been confirmed. Functional, import-fixture, calculation, accessibility, and real-device testing remain required. This app is not tax software and does not provide tax advice.
+**NOT READY FOR PAID ETSY RELEASE.** The build has gained core editing, calendar-list and reporting functions, but the remaining limitations and unverified tests are material. It must not be advertised as a fully tested professional property-management platform. It is not tax software and does not provide tax advice.
